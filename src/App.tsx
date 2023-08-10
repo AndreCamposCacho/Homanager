@@ -1,10 +1,15 @@
 import { useState } from "react";
-import Task from "./components/Task";
+import Home from "./components/Home";
 import CreateTask from "./components/CreateTask";
 
 function App() {
+  const [openModal, setOpenModal] = useState(false);
   const [taskList, setTaskList] = useState<string[]>([]);
   const [input, setInput] = useState("");
+
+  const toggleModal = () => {
+    setOpenModal(!openModal);
+  };
 
   const submitTask = () => {
     setTaskList([...taskList, input]);
@@ -18,11 +23,16 @@ function App() {
   };
 
   return (
-    <div className="bg-amber-100 h-screen">
+    <div className="bg-slate-300 h-screen">
       <h1 className="text-3xl text-center py-3">Homanager</h1>
+      <Home toggleModal={toggleModal} taskList={taskList} deleteTask={deleteTask} />
       <div id="taskManager" className="text-center py-2">
-        <CreateTask input={input} setInput={setInput} submitTask={submitTask} />
-        <Task taskList={taskList} deleteTask={deleteTask} />
+        <CreateTask
+          input={input}
+          setInput={setInput}
+          submitTask={submitTask}
+          openModal={openModal}
+        />
       </div>
     </div>
   );
